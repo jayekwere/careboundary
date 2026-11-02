@@ -9,3 +9,5 @@ The restricted Docker smoke check verifies a non-root UID, HTTP response and con
 `docs/local-verification.json` records measured local results. `docs/hosted-verification.json`, after publication, identifies the exact hosted commit and Verify run. Green CI applies to that revision only and is not a guarantee of external account permissions, production scalability or absence of all vulnerabilities.
 
 [Hosted Verify run 41370911097](https://github.com/jayekwere/careboundary/actions/runs/41370911097) passed at `60f57568ea837a424f39dd8f6a6b7af0e8539235`. Exact jobs, steps and artifact digests are recorded in [the hosted receipt](hosted-verification.json).
+
+Public CI artifacts use an explicit file allowlist and reject private-key markers. Browser state stays outside that public evidence set.
