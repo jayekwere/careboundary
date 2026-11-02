@@ -17,3 +17,7 @@ A process crash before commit rolls back domain state and receipts. Local filesy
 Use synthetic data only. This is a small custom healthcare API, not a FHIR implementation, electronic record product or legal compliance determination. There is no real patient directory, clinical workflow, outbound notification or automated legal decision. The database is private but not encrypted by this application. The UI exposes synthetic metadata to its intended demo roles; patient clinical fields require the separate access operation. Bulk export is unsupported. Privacy decisions record an authorized human assessment and require jurisdiction-specific review before adaptation.
 
 The privacy-scoped data-flow inventory records systems, data category, processing region, accountable owner, encryption uncertainty and configurable retention days. It produces a human-review state and never automatically determines legal jurisdiction or permits a cross-border transfer. This is a documented inventory, not active network discovery or deletion enforcement.
+
+## Protocol and provider references
+
+[Canadian breach guidance](https://www.priv.gc.ca/en/privacy-topics/privacy-for-businesses/privacy-breaches-at-your-business/gd_pb_201810) informs the example incident fields. Applicable law, actual notification obligations and retention must be reviewed for the organization and jurisdiction. The demonstration does not decide these automatically.
