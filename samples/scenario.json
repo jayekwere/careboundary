@@ -1,0 +1,127 @@
+{
+  "intro": "Exercise patient isolation, minimal support access, time-limited emergency access and an independent privacy decision.",
+  "steps": [
+    {
+      "id": "patient",
+      "title": "Create a synthetic record in another care relationship",
+      "action": "register-patient",
+      "data": {
+        "id": "synthetic-one",
+        "synthetic": true,
+        "clinic": "south",
+        "assigned_clinician": "dr-other",
+        "observation": "synthetic-follow-up"
+      },
+      "identity": "demo-operator"
+    },
+    {
+      "id": "denied",
+      "title": "Reject an unrelated clinician read",
+      "action": "read-patient",
+      "data": {
+        "id": "synthetic-one",
+        "purpose": "treatment"
+      },
+      "identity": "demo-clinician",
+      "expect_error": 403
+    },
+    {
+      "id": "support",
+      "title": "Return only support metadata",
+      "action": "read-patient",
+      "data": {
+        "id": "synthetic-one",
+        "purpose": "support"
+      },
+      "identity": "demo-support"
+    },
+    {
+      "id": "emergency",
+      "title": "Request a justified temporary emergency grant",
+      "action": "request-emergency",
+      "data": {
+        "id": "emergency-one",
+        "patient_id": "synthetic-one",
+        "justification": "Synthetic emergency exercise requires temporary care access.",
+        "minutes": 15
+      },
+      "identity": "demo-clinician"
+    },
+    {
+      "id": "read",
+      "title": "Read through the exact emergency grant",
+      "action": "read-patient",
+      "data": {
+        "id": "synthetic-one",
+        "purpose": "treatment",
+        "emergency_id": "emergency-one"
+      },
+      "identity": "demo-clinician"
+    },
+    {
+      "id": "review",
+      "title": "Record independent emergency review",
+      "action": "review-emergency",
+      "data": {
+        "id": "emergency-one",
+        "accepted": true,
+        "rationale": "The synthetic scenario supports the recorded emergency access."
+      },
+      "identity": "demo-reviewer"
+    },
+    {
+      "id": "incident",
+      "title": "Record a synthetic privacy incident",
+      "action": "record-incident",
+      "data": {
+        "id": "incident-one",
+        "data_category": "synthetic-health",
+        "sensitivity": "high",
+        "misuse_probability": "unknown",
+        "affected_count": 3,
+        "occurred_at": "$now",
+        "containment": "Disabled the synthetic export integration."
+      },
+      "identity": "demo-operator"
+    },
+    {
+      "id": "privacy",
+      "title": "Record a human privacy assessment",
+      "action": "privacy-decision",
+      "data": {
+        "id": "incident-one",
+        "notify": true,
+        "rationale": "For this synthetic exercise the privacy reviewer selects notification.",
+        "evidence_sha256": "874e68d43d39ae19e8ffb580848ce4592edb5b120665bf8fdc6aba1606ef9177"
+      },
+      "identity": "demo-privacy"
+    },
+    {
+      "id": "boundary",
+      "title": "Reject the same patient id in another tenant",
+      "action": "read-patient",
+      "data": {
+        "id": "synthetic-one",
+        "purpose": "treatment"
+      },
+      "identity": "demo-other",
+      "expect_error": 404
+    },
+    {
+      "id": "flow",
+      "title": "Inventory synthetic data flow and retention policy",
+      "action": "register-data-flow",
+      "data": {
+        "id": "flow-one",
+        "source_system": "synthetic-clinic",
+        "destination_system": "synthetic-reports",
+        "region": "CA",
+        "category": "synthetic-health",
+        "retention_days": 90,
+        "encrypted": true,
+        "owner": "privacy"
+      },
+      "identity": "demo-privacy"
+    }
+  ]
+}

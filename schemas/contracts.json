@@ -1,0 +1,315 @@
+{
+  "register-patient": {
+    "additionalProperties": false,
+    "properties": {
+      "id": {
+        "pattern": "^[a-z][a-z0-9-]{0,63}$",
+        "title": "Id",
+        "type": "string"
+      },
+      "synthetic": {
+        "const": true,
+        "title": "Synthetic",
+        "type": "boolean"
+      },
+      "clinic": {
+        "enum": [
+          "north",
+          "south"
+        ],
+        "title": "Clinic",
+        "type": "string"
+      },
+      "assigned_clinician": {
+        "pattern": "^[a-z][a-z0-9-]{0,63}$",
+        "title": "Assigned Clinician",
+        "type": "string"
+      },
+      "observation": {
+        "enum": [
+          "synthetic-normal",
+          "synthetic-follow-up"
+        ],
+        "title": "Observation",
+        "type": "string"
+      }
+    },
+    "required": [
+      "id",
+      "synthetic",
+      "clinic",
+      "assigned_clinician",
+      "observation"
+    ],
+    "title": "Patient",
+    "type": "object"
+  },
+  "read-patient": {
+    "additionalProperties": false,
+    "properties": {
+      "id": {
+        "pattern": "^[a-z][a-z0-9-]{0,63}$",
+        "title": "Id",
+        "type": "string"
+      },
+      "purpose": {
+        "enum": [
+          "treatment",
+          "support"
+        ],
+        "title": "Purpose",
+        "type": "string"
+      },
+      "emergency_id": {
+        "anyOf": [
+          {
+            "pattern": "^[a-z][a-z0-9-]{0,63}$",
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "title": "Emergency Id"
+      }
+    },
+    "required": [
+      "id",
+      "purpose"
+    ],
+    "title": "Access",
+    "type": "object"
+  },
+  "request-emergency": {
+    "additionalProperties": false,
+    "properties": {
+      "id": {
+        "pattern": "^[a-z][a-z0-9-]{0,63}$",
+        "title": "Id",
+        "type": "string"
+      },
+      "patient_id": {
+        "pattern": "^[a-z][a-z0-9-]{0,63}$",
+        "title": "Patient Id",
+        "type": "string"
+      },
+      "justification": {
+        "maxLength": 300,
+        "minLength": 30,
+        "title": "Justification",
+        "type": "string"
+      },
+      "minutes": {
+        "maximum": 30,
+        "minimum": 1,
+        "title": "Minutes",
+        "type": "integer"
+      }
+    },
+    "required": [
+      "id",
+      "patient_id",
+      "justification",
+      "minutes"
+    ],
+    "title": "Emergency",
+    "type": "object"
+  },
+  "review-emergency": {
+    "additionalProperties": false,
+    "properties": {
+      "id": {
+        "pattern": "^[a-z][a-z0-9-]{0,63}$",
+        "title": "Id",
+        "type": "string"
+      },
+      "accepted": {
+        "title": "Accepted",
+        "type": "boolean"
+      },
+      "rationale": {
+        "maxLength": 300,
+        "minLength": 20,
+        "title": "Rationale",
+        "type": "string"
+      }
+    },
+    "required": [
+      "id",
+      "accepted",
+      "rationale"
+    ],
+    "title": "EmergencyReview",
+    "type": "object"
+  },
+  "record-incident": {
+    "additionalProperties": false,
+    "properties": {
+      "id": {
+        "pattern": "^[a-z][a-z0-9-]{0,63}$",
+        "title": "Id",
+        "type": "string"
+      },
+      "data_category": {
+        "enum": [
+          "synthetic-health",
+          "synthetic-contact"
+        ],
+        "title": "Data Category",
+        "type": "string"
+      },
+      "sensitivity": {
+        "enum": [
+          "high",
+          "low"
+        ],
+        "title": "Sensitivity",
+        "type": "string"
+      },
+      "misuse_probability": {
+        "enum": [
+          "likely",
+          "unlikely",
+          "unknown"
+        ],
+        "title": "Misuse Probability",
+        "type": "string"
+      },
+      "affected_count": {
+        "maximum": 1000000,
+        "minimum": 1,
+        "title": "Affected Count",
+        "type": "integer"
+      },
+      "occurred_at": {
+        "maxLength": 40,
+        "minLength": 20,
+        "title": "Occurred At",
+        "type": "string"
+      },
+      "containment": {
+        "maxLength": 300,
+        "minLength": 10,
+        "title": "Containment",
+        "type": "string"
+      }
+    },
+    "required": [
+      "id",
+      "data_category",
+      "sensitivity",
+      "misuse_probability",
+      "affected_count",
+      "occurred_at",
+      "containment"
+    ],
+    "title": "Incident",
+    "type": "object"
+  },
+  "privacy-decision": {
+    "additionalProperties": false,
+    "properties": {
+      "id": {
+        "pattern": "^[a-z][a-z0-9-]{0,63}$",
+        "title": "Id",
+        "type": "string"
+      },
+      "notify": {
+        "title": "Notify",
+        "type": "boolean"
+      },
+      "rationale": {
+        "maxLength": 500,
+        "minLength": 30,
+        "title": "Rationale",
+        "type": "string"
+      },
+      "evidence_sha256": {
+        "pattern": "^[a-f0-9]{64}$",
+        "title": "Evidence Sha256",
+        "type": "string"
+      }
+    },
+    "required": [
+      "id",
+      "notify",
+      "rationale",
+      "evidence_sha256"
+    ],
+    "title": "PrivacyDecision",
+    "type": "object"
+  },
+  "register-data-flow": {
+    "additionalProperties": false,
+    "properties": {
+      "id": {
+        "pattern": "^[a-z][a-z0-9-]{0,63}$",
+        "title": "Id",
+        "type": "string"
+      },
+      "source_system": {
+        "pattern": "^[a-z][a-z0-9-]{0,63}$",
+        "title": "Source System",
+        "type": "string"
+      },
+      "destination_system": {
+        "pattern": "^[a-z][a-z0-9-]{0,63}$",
+        "title": "Destination System",
+        "type": "string"
+      },
+      "region": {
+        "enum": [
+          "CA",
+          "US",
+          "EU",
+          "unknown"
+        ],
+        "title": "Region",
+        "type": "string"
+      },
+      "category": {
+        "enum": [
+          "synthetic-health",
+          "synthetic-contact"
+        ],
+        "title": "Category",
+        "type": "string"
+      },
+      "retention_days": {
+        "maximum": 2555,
+        "minimum": 1,
+        "title": "Retention Days",
+        "type": "integer"
+      },
+      "encrypted": {
+        "anyOf": [
+          {
+            "type": "boolean"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "Encrypted"
+      },
+      "owner": {
+        "pattern": "^[a-z][a-z0-9-]{0,63}$",
+        "title": "Owner",
+        "type": "string"
+      }
+    },
+    "required": [
+      "id",
+      "source_system",
+      "destination_system",
+      "region",
+      "category",
+      "retention_days",
+      "encrypted",
+      "owner"
+    ],
+    "title": "DataFlow",
+    "type": "object"
+  }
+}

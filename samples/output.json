@@ -1,0 +1,314 @@
+{
+  "mode": "synthetic-offline",
+  "transcript": [
+    {
+      "step": "Create a synthetic record in another care relationship",
+      "result": {
+        "id": "synthetic-one",
+        "synthetic": true,
+        "clinic": "south",
+        "assigned_clinician": "dr-other",
+        "observation": "synthetic-follow-up",
+        "created_at": "2026-11-01T12:00:00Z"
+      }
+    },
+    {
+      "step": "Reject an unrelated clinician read",
+      "expected_denial": 403,
+      "reason": "Patient is outside assigned care relationship"
+    },
+    {
+      "step": "Return only support metadata",
+      "result": {
+        "id": "synthetic-one",
+        "clinic": "south",
+        "synthetic": true,
+        "clinical_fields": "redacted"
+      }
+    },
+    {
+      "step": "Request a justified temporary emergency grant",
+      "result": {
+        "id": "emergency-one",
+        "patient_id": "synthetic-one",
+        "justification": "Synthetic emergency exercise requires temporary care access.",
+        "minutes": 15,
+        "requested_by": "dr-alex",
+        "created_at": "2026-11-01T12:00:00Z",
+        "expires_at": "2026-11-01T12:15:00+00:00",
+        "review": null,
+        "uses": 0
+      }
+    },
+    {
+      "step": "Read through the exact emergency grant",
+      "result": {
+        "assigned_clinician": "dr-other",
+        "clinic": "south",
+        "created_at": "2026-11-01T12:00:00Z",
+        "id": "synthetic-one",
+        "observation": "synthetic-follow-up",
+        "synthetic": true,
+        "purpose": "treatment"
+      }
+    },
+    {
+      "step": "Record independent emergency review",
+      "result": {
+        "created_at": "2026-11-01T12:00:00Z",
+        "expires_at": "2026-11-01T12:15:00+00:00",
+        "id": "emergency-one",
+        "justification": "Synthetic emergency exercise requires temporary care access.",
+        "minutes": 15,
+        "patient_id": "synthetic-one",
+        "requested_by": "dr-alex",
+        "review": {
+          "id": "emergency-one",
+          "accepted": true,
+          "rationale": "The synthetic scenario supports the recorded emergency access.",
+          "reviewer": "blair",
+          "at": "2026-11-01T12:00:00Z"
+        },
+        "uses": 1
+      }
+    },
+    {
+      "step": "Record a synthetic privacy incident",
+      "result": {
+        "id": "incident-one",
+        "data_category": "synthetic-health",
+        "sensitivity": "high",
+        "misuse_probability": "unknown",
+        "affected_count": 3,
+        "occurred_at": "2026-11-01T12:00:00Z",
+        "containment": "Disabled the synthetic export integration.",
+        "recorded_by": "alex",
+        "decision": null,
+        "suggestion": "human-assessment-required",
+        "retain_until": "2028-10-31T12:00:00+00:00",
+        "retention_basis": "demo-policy-730-days-not-jurisdiction-determination"
+      }
+    },
+    {
+      "step": "Record a human privacy assessment",
+      "result": {
+        "affected_count": 3,
+        "containment": "Disabled the synthetic export integration.",
+        "data_category": "synthetic-health",
+        "decision": {
+          "id": "incident-one",
+          "notify": true,
+          "rationale": "For this synthetic exercise the privacy reviewer selects notification.",
+          "evidence_sha256": "874e68d43d39ae19e8ffb580848ce4592edb5b120665bf8fdc6aba1606ef9177",
+          "reviewer": "pat",
+          "at": "2026-11-01T12:00:00Z",
+          "scope": "human_recorded_decision_not_legal_advice"
+        },
+        "id": "incident-one",
+        "misuse_probability": "unknown",
+        "occurred_at": "2026-11-01T12:00:00Z",
+        "recorded_by": "alex",
+        "retain_until": "2028-10-31T12:00:00+00:00",
+        "retention_basis": "demo-policy-730-days-not-jurisdiction-determination",
+        "sensitivity": "high",
+        "suggestion": "human-assessment-required"
+      }
+    },
+    {
+      "step": "Reject the same patient id in another tenant",
+      "expected_denial": 404,
+      "reason": "Record not found"
+    },
+    {
+      "step": "Inventory synthetic data flow and retention policy",
+      "result": {
+        "id": "flow-one",
+        "source_system": "synthetic-clinic",
+        "destination_system": "synthetic-reports",
+        "region": "CA",
+        "category": "synthetic-health",
+        "retention_days": 90,
+        "encrypted": true,
+        "owner": "privacy",
+        "review": "human_privacy_review_required",
+        "recorded_at": "2026-11-01T12:00:00Z",
+        "risk": "region-and-retention-review-required",
+        "jurisdiction_decision": "not_automated"
+      }
+    }
+  ],
+  "summary": {
+    "patients": [
+      {
+        "id": "synthetic-one",
+        "clinic": "south",
+        "synthetic": true
+      }
+    ],
+    "data_flows": [
+      {
+        "category": "synthetic-health",
+        "destination_system": "synthetic-reports",
+        "encrypted": true,
+        "id": "flow-one",
+        "jurisdiction_decision": "not_automated",
+        "owner": "privacy",
+        "recorded_at": "2026-11-01T12:00:00Z",
+        "region": "CA",
+        "retention_days": 90,
+        "review": "human_privacy_review_required",
+        "risk": "region-and-retention-review-required",
+        "source_system": "synthetic-clinic"
+      }
+    ],
+    "emergencies": [
+      {
+        "id": "emergency-one",
+        "patient_id": "synthetic-one",
+        "uses": 1,
+        "status": "reviewed"
+      }
+    ],
+    "incidents": [
+      {
+        "affected_count": 3,
+        "containment": "Disabled the synthetic export integration.",
+        "data_category": "synthetic-health",
+        "decision": {
+          "at": "2026-11-01T12:00:00Z",
+          "evidence_sha256": "874e68d43d39ae19e8ffb580848ce4592edb5b120665bf8fdc6aba1606ef9177",
+          "id": "incident-one",
+          "notify": true,
+          "rationale": "For this synthetic exercise the privacy reviewer selects notification.",
+          "reviewer": "pat",
+          "scope": "human_recorded_decision_not_legal_advice"
+        },
+        "id": "incident-one",
+        "misuse_probability": "unknown",
+        "occurred_at": "2026-11-01T12:00:00Z",
+        "recorded_by": "alex",
+        "retain_until": "2028-10-31T12:00:00+00:00",
+        "retention_basis": "demo-policy-730-days-not-jurisdiction-determination",
+        "sensitivity": "high",
+        "suggestion": "human-assessment-required"
+      }
+    ],
+    "data_policy": "synthetic-only",
+    "bulk_export": "unsupported"
+  },
+  "evidence": {
+    "tenant": "alder",
+    "integrity": "verified_local_chain",
+    "checkpoint": "63bd91d4c31fa9855e24fb93c5242e706263853faa26e4bb4056aa044fe8c12d",
+    "events": [
+      {
+        "payload": {
+          "action": "register-patient",
+          "at": "2026-11-01T12:00:00Z",
+          "request_sha256": "f7f35ccd2152928bd0615f960557f4bcc08c3258b6f23b98136d6727fe732d31",
+          "result_sha256": "2f4da27d02dbbb86251f11eaad28f9b79f2fa7f9f192abbb142d83c4d643fa4e",
+          "subject": "alex",
+          "tenant": "alder"
+        },
+        "previous": "0000000000000000000000000000000000000000000000000000000000000000",
+        "hash": "4352c1ddb413fbbab0ad170ce2636f5856e36c89562defee1d945d98c44f332b"
+      },
+      {
+        "payload": {
+          "action": "read-patient",
+          "at": "2026-11-01T12:00:00Z",
+          "request_sha256": "f571741de2d4b271b997ad41e0cd3f0f2b8671eb154ecb7306e23398669ecb41",
+          "result_sha256": "14d2cef4f52f4e29790107d7c830acab9be6a359cb8eb9ebeb7db172abb7cbbc",
+          "subject": "sam",
+          "tenant": "alder"
+        },
+        "previous": "4352c1ddb413fbbab0ad170ce2636f5856e36c89562defee1d945d98c44f332b",
+        "hash": "58f52b73824a43ea27f273faa03cd7fa751cef2111c0ecb7cd8cc5127fb0ee06"
+      },
+      {
+        "payload": {
+          "action": "request-emergency",
+          "at": "2026-11-01T12:00:00Z",
+          "request_sha256": "92cee58d0d4cf1d6bb5d9fbd5ba548ede10acfdfebf5e75b7d4b97abba6d0720",
+          "result_sha256": "b983aa016247feccf4ac134049f6034e3aa67f736b573568f7dcdcfb1edcfe5c",
+          "subject": "dr-alex",
+          "tenant": "alder"
+        },
+        "previous": "58f52b73824a43ea27f273faa03cd7fa751cef2111c0ecb7cd8cc5127fb0ee06",
+        "hash": "fb0b92596de088cd32d563c78b688f36909c0108518788cc250ed0a67df30514"
+      },
+      {
+        "payload": {
+          "action": "read-patient",
+          "at": "2026-11-01T12:00:00Z",
+          "request_sha256": "139600226ded77fa4e754217cfb0da1efaa92031679865a529b9f64955675829",
+          "result_sha256": "6986aa2f563060fbabfd6735a916eaeaa1b87aeb4e644aecb89b3c5226b492bd",
+          "subject": "dr-alex",
+          "tenant": "alder"
+        },
+        "previous": "fb0b92596de088cd32d563c78b688f36909c0108518788cc250ed0a67df30514",
+        "hash": "19f82b40500a67053fea0a777f9c4c1e679f6465d4c8b03731ccc327b9e2e12b"
+      },
+      {
+        "payload": {
+          "action": "review-emergency",
+          "at": "2026-11-01T12:00:00Z",
+          "request_sha256": "1617bec747e1855fab6431afb7dce687c8786c03c3cba72617afabb229f43198",
+          "result_sha256": "21ed5bf89e825bba5dc5ec51c32d85184c7088f252e1e37e352fa486e53a4a07",
+          "subject": "blair",
+          "tenant": "alder"
+        },
+        "previous": "19f82b40500a67053fea0a777f9c4c1e679f6465d4c8b03731ccc327b9e2e12b",
+        "hash": "1bb6e088abb4a1662d0d5b0650c68baeecac429b6671c1111d457d4ec1c74d1b"
+      },
+      {
+        "payload": {
+          "action": "record-incident",
+          "at": "2026-11-01T12:00:00Z",
+          "request_sha256": "46fb915d37b94a9267d405e78f74da86dbcc55e1f19d47add9d0b89d29f8e727",
+          "result_sha256": "2c16284d0864a87e2667979b3a4322bd7fd1d47fe259761c6b9f598c5971be3c",
+          "subject": "alex",
+          "tenant": "alder"
+        },
+        "previous": "1bb6e088abb4a1662d0d5b0650c68baeecac429b6671c1111d457d4ec1c74d1b",
+        "hash": "1f8bc8de62a06f7496324129cd822c9cde8647e9da45bfa7aeb608b24dfb8e4f"
+      },
+      {
+        "payload": {
+          "action": "privacy-decision",
+          "at": "2026-11-01T12:00:00Z",
+          "request_sha256": "cdb204bec9e7abd43c50a094e92eead4ffd522a5ab067b3c34417a730aa7c2bf",
+          "result_sha256": "2b46def9b988eeda9ae43d3d200f28a7ec6de47ffdd44db7492f9bfa19b70883",
+          "subject": "pat",
+          "tenant": "alder"
+        },
+        "previous": "1f8bc8de62a06f7496324129cd822c9cde8647e9da45bfa7aeb608b24dfb8e4f",
+        "hash": "20a3db320343e2719d647b2809c028a7a578d4ac89078692ff2c98a2488837c2"
+      },
+      {
+        "payload": {
+          "action": "register-data-flow",
+          "at": "2026-11-01T12:00:00Z",
+          "request_sha256": "3593ec670d580c2bdd406415afe36672e1acfdff027a9b3a03deafd7df064196",
+          "result_sha256": "d6b0b4d37fc2ad08757b4b9d0090a1c8243bb335cb9784410aa70ccd84d1bd2d",
+          "subject": "pat",
+          "tenant": "alder"
+        },
+        "previous": "20a3db320343e2719d647b2809c028a7a578d4ac89078692ff2c98a2488837c2",
+        "hash": "b3a4c9346a924702fb7c74eb7c193bfa3d228bbbba69f753d17329250f57730a"
+      },
+      {
+        "payload": {
+          "action": "read-summary",
+          "at": "2026-11-01T12:00:00Z",
+          "request_sha256": "d7b149571eead77610e840d582a19bb9543143d5009358463fb0f3423f4d4067",
+          "result_sha256": "88442c36a5c4176f8269637e88c18131226dd6ebd8cf242e14a4f4a7a39486f8",
+          "subject": "blair",
+          "tenant": "alder"
+        },
+        "previous": "b3a4c9346a924702fb7c74eb7c193bfa3d228bbbba69f753d17329250f57730a",
+        "hash": "63bd91d4c31fa9855e24fb93c5242e706263853faa26e4bb4056aa044fe8c12d"
+      }
+    ]
+  }
+}
