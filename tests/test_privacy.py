@@ -203,3 +203,17 @@ def test_data_flow_inventory_is_privacy_scoped() -> None:
         and result["jurisdiction_decision"] == "not_automated"
     )
     assert view(state, DEMO_IDENTITIES["demo-support"], NOW)["data_flows"] == []
+
+
+def test_synthetic_marker_rejects_integer_and_string_aliases() -> None:
+    for marker in [1, "true", False, None]:
+        with pytest.raises(ValidationError):
+            Patient.model_validate(
+                {
+                    "id": "patient",
+                    "synthetic": marker,
+                    "clinic": "north",
+                    "assigned_clinician": "dr-other",
+                    "observation": "synthetic-normal",
+                }
+            )

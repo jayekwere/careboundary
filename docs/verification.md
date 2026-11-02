@@ -13,3 +13,5 @@ The restricted Docker smoke check verifies a non-root UID, HTTP response and con
 Public CI artifacts use an explicit file allowlist and reject private-key markers. Browser state stays outside that public evidence set.
 
 [Hosted Verify run 41371621704](https://github.com/jayekwere/careboundary/actions/runs/41371621704) passed at `60986bccb1365d33e63ec3e006698e631567c3a0`. Exact jobs, steps and artifact digests are recorded in [the hosted receipt](hosted-verification.json).
+
+A dedicated negative test rejects integer and string aliases for the literal synthetic marker. This check is necessary because the underlying validation library accepts integer `1` for a boolean literal unless a pre-validator rejects it. The Actions badge identifies validation of the current revision; the JSON receipt remains an immutable historical verification point.

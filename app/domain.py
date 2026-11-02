@@ -3,7 +3,7 @@ from __future__ import annotations
 from datetime import timedelta
 from typing import Any, Literal
 
-from pydantic import Field
+from pydantic import Field, field_validator
 
 from app.common import (
     Contract,
@@ -19,6 +19,13 @@ from app.common import (
 
 
 class Patient(Ref):
+    @field_validator("synthetic", mode="before")
+    @classmethod
+    def synthetic_marker(cls, value: object) -> bool:
+        if value is not True:
+            raise ValueError("The synthetic marker must be the literal boolean true")
+        return True
+
     synthetic: Literal[True]
     clinic: Literal["north", "south"]
     assigned_clinician: str = Field(pattern=r"^[a-z][a-z0-9-]{0,63}$")
